@@ -403,7 +403,7 @@ body {
     cursor: pointer;
 }
 
-.time-tasks_item-label {
+.common-checkbox-label {
     cursor: pointer;
     font-size: 24px;
     font-family: "Inter", sans-serif;
@@ -411,6 +411,10 @@ body {
     position: relative;
     display: block;
     padding-left: 40px;
+}
+
+.common-checkbox-label:hover .common-checkbox-text {
+    opacity: 0.8;
 }
 
 .common-checkbox {
@@ -428,11 +432,7 @@ body {
     top: 0;
     left: 0;
     transition: all 0.1s ease;
-}
-
-.time-tasks_item-label:hover input ~ .time-tasks_item-check {
-    opacity: 0.8;
-}
+}   
 
 .common-checkbox:checked ~ .common-checkbox-check {
     border-color: var(--accent);
@@ -465,4 +465,84 @@ body {
 .time-notes:focus {
     outline: none;
     border: 3px solid var(--accent);
+}
+
+.home_tasks_edit-container {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(39, 62, 71, 0.5);
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.home_tasks_edit-container.active {
+    display: flex;
+}
+
+.home_tasks_edit-inner {
+    width: 1200px;
+    height: 700px;
+    padding: 40px 60px;
+    background-color: var(--secondary);
+    border-radius: 40px;
+    border: 2px solid var(--primary);
+    overflow-y: auto;
+    position: relative;
+}
+
+.home_tasks_edit-cross {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.home_tasks_edit-cross img {
+    width: 25px;
+}
+
+.home_tasks_edit-cross:hover {
+    background-color: var(--background)
+}
+
+.home_tasks_edit-group-name {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding: 5px 10px;
+    border-bottom: 2px solid var(--primary);
+    width: 80%;
+    font-size: 30px;
+    color: var(--primary-text);
+}
+
+.home_tasks_edit-group_task {
+    margin-top: 35px;
+}
+
+.home_tasks_edit-group_task-title {
+    font-size: 30px;
+    font-family: "Inter", sans-serif;
+    font-weight: normal;
+}
+
+.home_tasks_edit-group_task-block {
+
+}
+
+.home_tasks_edit-group_task_item {
+    list-style: none;
+    margin-top: 15px;
+    margin-left: 35px;
 }
