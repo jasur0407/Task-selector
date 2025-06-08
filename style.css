@@ -413,13 +413,13 @@ body {
     padding-left: 40px;
 }
 
-.time-tasks_item-checkbox {
+.common-checkbox {
     position: absolute;
     height: 0;
     width: 0;
 }
 
-.time-tasks_item-check {
+.common-checkbox-check {
     position: absolute;
     height: 30px;
     width: 30px;
@@ -434,17 +434,17 @@ body {
     opacity: 0.8;
 }
 
-.time-tasks_item-checkbox:checked ~ .time-tasks_item-check {
+.common-checkbox:checked ~ .common-checkbox-check {
     border-color: var(--accent);
     background-color: var(--primary);
 }
 
-.time-tasks_item-checkbox:checked + .time-tasks_item-check + .time-tasks_item-text {
+.common-checkbox:checked + .common-checkbox-check + .common-checkbox-text {
     text-decoration: line-through;
     opacity: 0.8;
 }
 
-.time-tasks_item-text {
+.common-checkbox-text {
     text-decoration: none;
     font-weight: normal;
 }
