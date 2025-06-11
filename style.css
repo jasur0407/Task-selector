@@ -144,6 +144,11 @@ body {
     cursor: pointer;
 }
 
+.home_tasks_item.active {
+    background-color: #ffa931;
+    border: 3px solid var(--primary);
+}
+
 .home_tasks_item_more {
     position: absolute;
     top: 10px;
@@ -254,6 +259,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    text-transform: uppercase;
 }
 
 .home_tasks-btns_btn.unavailable {

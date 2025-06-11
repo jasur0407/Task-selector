@@ -1,6 +1,7 @@
 /* More options btn */
 
 let home_tasks_row = document.querySelector(".home_tasks-row");
+let home_tasks_item = document.querySelectorAll(".home_tasks_item");
 
 home_tasks_row.addEventListener("click", function(e) {
     if (e.target.closest('.home_tasks_item_more-btn')) {
@@ -45,8 +46,8 @@ let home_tasks_new_item = `
 `;
 
 home_tasks_add_btn.addEventListener("click", function () {
-    let current_items = home_tasks_row.querySelectorAll(".home_tasks_item").length
-    if (current_items >= home_tasks_max_item) {
+    let home_tasks_item_length = home_tasks_item.length;
+    if (home_tasks_item_length >= home_tasks_max_item) {
         alert("Max reached");
     } else {
         let temp = document.createElement("div");
@@ -54,5 +55,32 @@ home_tasks_add_btn.addEventListener("click", function () {
         let newTask = temp.firstElementChild;
 
         home_tasks_row.insertBefore(newTask, home_tasks_add_btn);
+        home_tasks_item = document.querySelectorAll(".home_tasks_item");
     }
 });
+
+
+// Select group
+
+
+home_tasks_row.addEventListener("click", function(e) {
+    let item = e.target.closest(".home_tasks_item");
+     if (item && !e.target.closest('.home_tasks_item_more-btn')) {
+        document.querySelectorAll(".home_tasks_item").forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+    }
+})
+
+
+
+// Random group selection
+
+let home_tasks_random_btn = document.querySelector("#home_tasks_random-btn");
+
+home_tasks_random_btn.addEventListener("click", function() {
+    let rand_group = Math.floor(Math.random() * home_tasks_item.length);
+    home_tasks_item.forEach(item => {
+        item.classList.remove("active");
+    })
+    home_tasks_item[rand_group].classList.add("active");
+})
