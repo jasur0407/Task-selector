@@ -1,3 +1,6 @@
+let home_tasks_start_btn = document.querySelector("#home_tasks_start-btn");
+
+
 /* More options btn */
 
 let home_tasks_row = document.querySelector(".home_tasks-row");
@@ -66,8 +69,14 @@ home_tasks_add_btn.addEventListener("click", function () {
 home_tasks_row.addEventListener("click", function(e) {
     let item = e.target.closest(".home_tasks_item");
      if (item && !e.target.closest('.home_tasks_item_more-btn')) {
-        document.querySelectorAll(".home_tasks_item").forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
+        if (item.classList.contains("active")) {
+            item.classList.remove("active");
+            home_tasks_start_btn.classList.add("unavailable");
+        } else {
+            document.querySelectorAll(".home_tasks_item").forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+            home_tasks_start_btn.classList.remove("unavailable");
+        }
     }
 })
 
@@ -83,4 +92,5 @@ home_tasks_random_btn.addEventListener("click", function() {
         item.classList.remove("active");
     })
     home_tasks_item[rand_group].classList.add("active");
+    home_tasks_start_btn.classList.remove("unavailable");
 })

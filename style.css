@@ -10,7 +10,7 @@
 
 @font-face {
     font-family: 'Tahoma';
-    src: url(fonts/Tahoma-normal.ttf);
+    src: url(fonts/Tahoma-Regular.ttf);
     font-weight: normal;
 }
 
@@ -74,8 +74,8 @@ body {
 }
 
 .red-btn:hover {
-    background-color: var(--dark-primary);
-    color: var(--accent);
+    background-color: #b81d39;
+    color: #ffaf1a;
 }
 
 .yellow-btn {
@@ -95,8 +95,8 @@ body {
 }
 
 .yellow-btn:hover {
-    background-color: var(--accent);
-    color: var(--dark-primary);
+    background-color: #ffaf1a;
+    color: #b81d39;
 }
 
 
@@ -142,6 +142,7 @@ body {
     border-radius: 30px;
     padding: 15px 30px;
     cursor: pointer;
+    transition: background-color ease .1s;
 }
 
 .home_tasks_item.active {
