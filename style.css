@@ -154,7 +154,7 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 100;
+    z-index: 2;
 }
 
 .home_tasks_item_more-btn {
@@ -268,6 +268,10 @@ body {
     color: var(--primary-text);
     border: 3px solid var(--primary-text);
     cursor: not-allowed;
+}
+
+#home_tasks_start-btn {
+    text-decoration: none;
 }
 
 
@@ -485,6 +489,7 @@ body {
     justify-content: center;
     align-items: center;
     display: none;
+    z-index: 3;
 }
 
 .home_tasks_edit-container.active {

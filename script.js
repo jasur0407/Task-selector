@@ -103,7 +103,7 @@ home_tasks_random_btn.addEventListener("click", function() {
 let home_tasks_item_more_options_item_delete = document.querySelectorAll("#home_tasks_item_more-options_item-delete");
 
 home_tasks_row.addEventListener("click", function(e) {
-    deleteBtn = e.target.closest("#home_tasks_item_more-options_item-delete");
+    let deleteBtn = e.target.closest("#home_tasks_item_more-options_item-delete");
     if (deleteBtn) {
         let deletingItem = deleteBtn.closest(".home_tasks_item");
         deletingItem.remove();
@@ -113,4 +113,29 @@ home_tasks_row.addEventListener("click", function(e) {
             home_tasks_start_btn.classList.add("unavailable")
         })
     }
+})
+
+
+// Edit group btn
+
+
+let home_tasks_edit_btn = document.querySelector("#home_tasks_item_more-options_item-edit");
+let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
+
+home_tasks_row.addEventListener("click", function(e) {
+    editBtn = e.target.closest("#home_tasks_item_more-options_item-edit");
+    if (editBtn) {
+        home_tasks_edit_container.classList.add("active");
+    }
+})
+
+
+
+// Close editing window
+
+
+let home_tasks_editWindow_cross = document.querySelector(".home_tasks_edit-cross");
+
+home_tasks_editWindow_cross.addEventListener("click", function() {
+    home_tasks_edit_container.classList.remove("active");
 })
