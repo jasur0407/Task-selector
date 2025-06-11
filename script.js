@@ -21,6 +21,20 @@ home_tasks_row.addEventListener("click", function(e) {
 });
 
 
+
+// Delete group btn
+
+
+let home_tasks_item_more_options_item_delete = document.querySelectorAll("#home_tasks_item_more-options_item-delete");
+
+home_tasks_item_more_options_item_delete.forEach(delete_btn => {
+    delete_btn.addEventListener("click", function() {
+        let deletingItem = this.closest(".home_tasks_item");
+        deletingItem.remove();
+    })
+})
+
+
 /* Add new group btn */
 
 let home_tasks_add_btn = document.querySelector(".home_tasks_add-btn");
@@ -43,8 +57,8 @@ let home_tasks_new_item = `
                 </div>
             </div>
         </div>
-        <div class="home_tasks_item-header">SAT</div>
-        <div class="home_tasks_item-desc">English writing <br>Math statistics...</div>
+        <div class="home_tasks_item-header">New group</div>
+        <div class="home_tasks_item-desc"></div>
     </div>
 `;
 
