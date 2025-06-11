@@ -22,19 +22,6 @@ home_tasks_row.addEventListener("click", function(e) {
 
 
 
-// Delete group btn
-
-
-let home_tasks_item_more_options_item_delete = document.querySelectorAll("#home_tasks_item_more-options_item-delete");
-
-home_tasks_item_more_options_item_delete.forEach(delete_btn => {
-    delete_btn.addEventListener("click", function() {
-        let deletingItem = this.closest(".home_tasks_item");
-        deletingItem.remove();
-    })
-})
-
-
 /* Add new group btn */
 
 let home_tasks_add_btn = document.querySelector(".home_tasks_add-btn");
@@ -107,4 +94,23 @@ home_tasks_random_btn.addEventListener("click", function() {
     })
     home_tasks_item[rand_group].classList.add("active");
     home_tasks_start_btn.classList.remove("unavailable");
+})
+
+
+// Delete group btn
+
+
+let home_tasks_item_more_options_item_delete = document.querySelectorAll("#home_tasks_item_more-options_item-delete");
+
+home_tasks_row.addEventListener("click", function(e) {
+    deleteBtn = e.target.closest("#home_tasks_item_more-options_item-delete");
+    if (deleteBtn) {
+        let deletingItem = deleteBtn.closest(".home_tasks_item");
+        deletingItem.remove();
+        home_tasks_item = document.querySelectorAll(".home_tasks_item")
+        home_tasks_item.forEach(item => {
+            item.classList.remove("active");
+            home_tasks_start_btn.classList.add("unavailable")
+        })
+    }
 })
