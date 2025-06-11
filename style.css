@@ -267,7 +267,7 @@ body {
     background-color: var(--divider);
     color: var(--primary-text);
     border: 3px solid var(--primary-text);
-    cursor: not-allowed;
+    pointer-events: none;
 }
 
 #home_tasks_start-btn {
@@ -349,6 +349,7 @@ body {
     border-radius: 10px;
     width: 130px;
     height: 50px;
+    text-decoration: none;
 }
 
 .set-up_image {
