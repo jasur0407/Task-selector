@@ -385,6 +385,14 @@ body {
     margin-top: -20px;
 }
 
+.time-timer span {
+    font-size: 90px;
+    font-weight: bold;
+    color: var(--accent);
+    text-align: center;
+    margin-top: -20px;
+}
+
 .time-play-pause-btn {
     margin: 0 auto;
     cursor: pointer;
