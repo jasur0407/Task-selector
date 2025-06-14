@@ -52,7 +52,7 @@ if (home_tasks_add_btn) {
         </div>
     `;
 
-    home_tasks_add_btn.addEventListener("click", function () {
+    home_tasks_add_btn.addEventListener("click", function() {
         let home_tasks_item_length = home_tasks_item.length;
         if (home_tasks_item_length >= home_tasks_max_item) {
             alert("Max reached");
@@ -227,7 +227,7 @@ if (home_tasks_edit_group_subgroup_add_task_btn) {
         <label class="common-checkbox-label">
             <input type="checkbox" class="common-checkbox">
             <span class="common-checkbox-check"></span>
-            <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+            <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-text-input" placeholder="Task">
         </label>
     </div>
     `;
@@ -261,6 +261,38 @@ if (home_tasks_edit_group_subgroup_resource_add_btn) {
         let newSource = temp.firstElementChild;
 
         home_tasks_edit_group_subgroup_resource_block.insertBefore(newSource, home_tasks_edit_group_subgroup_resource_add_btn);
+    })
+}
+
+
+// Add new subgroup
+
+let home_tasks_edit_group_add_subgroup_btn = document.querySelector(".home_tasks_edit_group_add-subgroup-btn");
+
+if (home_tasks_edit_group_add_subgroup_btn) {
+    let home_tasks_edit_group_new_subgroup = `
+    <div class="home_tasks_edit-group_subgroup">
+        <input type="text" placeholder="Subgroup name" class="home_tasks_edit-group_subgroup-title">
+        <div class="home_tasks_edit-group_subgroup-block">
+            <div class="home_tasks_edit-group_subgroup_add-task-btn common-add-btn">+ Add new task</div>
+
+            <div class="home_tasks_edit-group_subgroup_resource">
+                <div class="home_tasks_edit-group_subgroup_resource-title">Resources</div>
+                <div class="home_tasks_edit-group_subgroup_resource-block">
+                    <div class="home_tasks_edit-group_subgroup_resource_add-btn common-add-btn">+ Add new source</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+    let home_tasks_edit_group = document.querySelector(".home_tasks_edit_group-form");
+
+    home_tasks_edit_group_add_subgroup_btn.addEventListener("click", () => {
+        let temp = document.createElement("div");
+        temp.innerHTML = home_tasks_edit_group_new_subgroup.trim();
+        let newSubgroup = temp.firstElementChild;
+
+        home_tasks_edit_group.insertBefore(newSubgroup, home_tasks_edit_group_add_subgroup_btn);
     })
 }
 
