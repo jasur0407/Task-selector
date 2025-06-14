@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="home_tasks_item-header">SAT</div>
-                            <div class="home_tasks_item-desc">English writing <br>Math statistics...</div>
+                            <div class="home_tasks_item-desc">Engdivsh writing <br>Math statistics...</div>
                         </div>
                         <div class="home_tasks_add-btn">
                             <img src="res/add-icon.svg" alt="Add" class="home_tasks_add-icon">
@@ -64,31 +64,42 @@
                 <input class="home_tasks_edit-group-name" type="text" placeholder="Group name" required></input>
                 <div class="home_tasks_edit-group_subgroup">
                     <input type="text" placeholder="Subgroup name" class="home_tasks_edit-group_subgroup-title">
-                    <ul class="home_tasks_edit-group_subgroup-block">
-                        <li class="home_tasks_edit-group_subgroup_task">
+                    <div class="home_tasks_edit-group_subgroup-block">
+                        <div class="home_tasks_edit-group_subgroup_task">
                             <label class="common-checkbox-label">
                                 <input type="checkbox" class="common-checkbox">
                                 <span class="common-checkbox-check"></span>
-                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-text-input" placeholder="Task">
                             </label>
-                        </li>
-                        <li class="home_tasks_edit-group_subgroup_task">
+                        </div>
+                        <div class="home_tasks_edit-group_subgroup_task">
                             <label class="common-checkbox-label">
                                 <input type="checkbox" class="common-checkbox">
                                 <span class="common-checkbox-check"></span>
-                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-text-input" placeholder="Task">
                             </label>
-                        </li>
-                        <li class="home_tasks_edit-group_subgroup_task">
+                        </div>
+                        <div class="home_tasks_edit-group_subgroup_task">
                             <label class="common-checkbox-label">
                                 <input type="checkbox" class="common-checkbox">
                                 <span class="common-checkbox-check"></span>
-                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-text-input" placeholder="Task">
                             </label>
-                        </li>
-                        <button class="home_tasks_edit-group_subgroup_add-task-btn common-add-btn">+ Add a new task</button>
-                    </ul>
+                        </div>
+                        <button class="home_tasks_edit-group_subgroup_add-task-btn common-add-btn">+ Add new task</button>
+                        <div class="home_tasks_edit-group_subgroup_resource">
+                            <div class="home_tasks_edit-group_subgroup_resource-title">Resources</div>
+                            <div class="home_tasks_edit-group_subgroup_resource-block">
+                                <div class="home_tasks_edit-group_subgroup_resource_item">
+                                    <input type="text" class="home_tasks_edit-group_subgroup_resource_item-title common-text-input" placeholder="Title"/>
+                                    <input type="text" class="home_tasks_edit-group_subgroup_resource_item-link common-text-input" placeholder="Link">
+                                </div>
+                                <button class="home_tasks_edit-group_subgroup_resource_add-btn common-add-btn">+ Add new source</button>
+                            </div>
+                    </div>
                 </div>
+
+                <button class="common-add-btn">+ Add new subgroup</button>
 
                 <button class="red-btn home_tasks_edit_group-form_save-btn">Save</button>
             </form>

@@ -223,13 +223,13 @@ let home_tasks_edit_group_subgroup_add_task_btn = document.querySelector(".home_
 if (home_tasks_edit_group_subgroup_add_task_btn) {
     let home_tasks_edit_group_subgroup_block = document.querySelector(".home_tasks_edit-group_subgroup-block");
     let home_tasks_edit_group_subgroup_new_task = `
-    <li class="home_tasks_edit-group_subgroup_task">
+    <div class="home_tasks_edit-group_subgroup_task">
         <label class="common-checkbox-label">
             <input type="checkbox" class="common-checkbox">
             <span class="common-checkbox-check"></span>
             <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
         </label>
-    </li>
+    </div>
     `;
 
     home_tasks_edit_group_subgroup_add_task_btn.addEventListener("click", () => {
@@ -239,6 +239,29 @@ if (home_tasks_edit_group_subgroup_add_task_btn) {
 
         home_tasks_edit_group_subgroup_block.insertBefore(newTask, home_tasks_edit_group_subgroup_add_task_btn);
     }) 
+}
+
+
+// Add new source
+
+let home_tasks_edit_group_subgroup_resource_add_btn = document.querySelector(".home_tasks_edit-group_subgroup_resource_add-btn");
+
+if (home_tasks_edit_group_subgroup_resource_add_btn) {
+    let home_tasks_edit_group_subgroup_resource_new_item = `
+    <div class="home_tasks_edit-group_subgroup_resource_item">
+        <input type="text" class="home_tasks_edit-group_subgroup_resource_item-title common-text-input" placeholder="Title"/>
+        <input type="text" class="home_tasks_edit-group_subgroup_resource_item-link common-text-input" placeholder="Link">
+    </div>
+    `;
+    
+    home_tasks_edit_group_subgroup_resource_add_btn.addEventListener("click", () => {
+        let home_tasks_edit_group_subgroup_resource_block = document.querySelector(".home_tasks_edit-group_subgroup_resource-block");
+        let temp = document.createElement("div");
+        temp.innerHTML = home_tasks_edit_group_subgroup_resource_new_item.trim();
+        let newSource = temp.firstElementChild;
+
+        home_tasks_edit_group_subgroup_resource_block.insertBefore(newSource, home_tasks_edit_group_subgroup_resource_add_btn);
+    })
 }
 
 

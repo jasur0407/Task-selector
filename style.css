@@ -99,7 +99,69 @@ body {
     color: #b81d39;
 }
 
+.common-checkbox-label {
+    cursor: pointer;
+    font-size: 24px;
+    font-family: "Inter", sans-serif;
+    font-weight: normal;
+    position: relative;
+    display: block;
+    padding-left: 40px;
+}
 
+.common-checkbox-label:hover .common-text-input {
+    opacity: 0.8;
+}
+
+.common-checkbox {
+    position: absolute;
+    height: 0;
+    width: 0;
+}
+
+.common-checkbox-check {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    border: 5px solid var(--primary-text);
+    background-color: var(--background);
+    top: 0;
+    left: 0;
+    transition: all 0.1s ease;
+}   
+
+.common-checkbox:checked ~ .common-checkbox-check {
+    border-color: var(--accent);
+    background-color: var(--primary);
+}
+
+.common-checkbox:checked + .common-checkbox-check + .common-text-input {
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.common-add-btn {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin-top: 15px;
+    padding: 5px 10px 5px 10px;
+    font-size: 18px;
+    color: var(--primary);
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+.common-add-btn:hover {
+    background-color: #ffe0af;
+}
+
+.common-text-input {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 22px;
+} 
 
 
 /* Home Page */
@@ -340,6 +402,10 @@ body {
     margin-top: 35px;
 }
 
+.home_tasks_edit-group_subgroup li {
+    list-style: none;
+}
+
 .home_tasks_edit-group_subgroup-title {
     font-size: 30px;
     font-family: "Inter", sans-serif;
@@ -361,10 +427,6 @@ body {
 }
 
 .home_tasks_edit-group_subgroup_task-checkbox-text {
-    outline: none;
-    border: none;
-    background-color: transparent;
-    font-size: 22px;
     width: 80%;
 }
 
@@ -375,6 +437,35 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.home_tasks_edit-group_subgroup_resource {
+    margin-top: 20px;
+}
+
+.home_tasks_edit-group_subgroup_resource-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.home_tasks_edit-group_subgroup_resource_item {
+    margin-top: 10px;
+}
+
+.home_tasks_edit-group_subgroup_resource_item input {
+    padding: 5px 0px;
+    border-bottom: 2px solid var(--primary);
+    font-size: 18px;
+}
+
+.home_tasks_edit-group_subgroup_resource_item-title {
+    margin-right: 10px;
+}
+
+.home_tasks_edit-group_subgroup_resource_item-link {
+    width: 40%;
+}
+
+
 
 
 
@@ -524,68 +615,6 @@ body {
 .time-tasks_item {
     list-style-type: none;  
     cursor: pointer;
-}
-
-.common-checkbox-label {
-    cursor: pointer;
-    font-size: 24px;
-    font-family: "Inter", sans-serif;
-    font-weight: normal;
-    position: relative;
-    display: block;
-    padding-left: 40px;
-}
-
-.common-checkbox-label:hover .common-checkbox-text {
-    opacity: 0.8;
-}
-
-.common-checkbox {
-    position: absolute;
-    height: 0;
-    width: 0;
-}
-
-.common-checkbox-check {
-    position: absolute;
-    height: 30px;
-    width: 30px;
-    border: 5px solid var(--primary-text);
-    background-color: var(--background);
-    top: 0;
-    left: 0;
-    transition: all 0.1s ease;
-}   
-
-.common-checkbox:checked ~ .common-checkbox-check {
-    border-color: var(--accent);
-    background-color: var(--primary);
-}
-
-.common-checkbox:checked + .common-checkbox-check + .common-checkbox-text {
-    text-decoration: line-through;
-    opacity: 0.8;
-}
-
-.common-checkbox-text {
-    text-decoration: none;
-    font-weight: normal;
-}
-
-.common-add-btn {
-    cursor: pointer;
-    outline: none;
-    border: none;
-    margin-top: 15px;
-    padding: 5px 10px 5px 10px;
-    font-size: 18px;
-    color: var(--primary);
-    background-color: transparent;
-    border-radius: 5px;
-}
-
-.common-add-btn:hover {
-    background-color: #ffe0af;
 }
 
 .time-notes {
