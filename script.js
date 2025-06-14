@@ -59,9 +59,9 @@ if (home_tasks_add_btn) {
         } else {
             let temp = document.createElement("div");
             temp.innerHTML = home_tasks_new_item.trim();
-            let newTask = temp.firstElementChild;
+            let newGroup = temp.firstElementChild;
 
-            home_tasks_row.insertBefore(newTask, home_tasks_add_btn);
+            home_tasks_row.insertBefore(newGroup, home_tasks_add_btn);
             home_tasks_item = document.querySelectorAll(".home_tasks_item");
         }
     });
@@ -131,11 +131,15 @@ if (home_tasks_item_more_options_item_delete && home_tasks_row) {
 let home_tasks_edit_btn = document.querySelector("#home_tasks_item_more-options_item-edit");
 let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
 
-if (home_tasks_edit_btn && home_tasks_edit_container) {
+if (home_tasks_edit_btn && home_tasks_edit_container && home_tasks_row) {
     home_tasks_row.addEventListener("click", function(e) {
-        editBtn = e.target.closest("#home_tasks_item_more-options_item-edit");
-        if (editBtn) {
+        let editBtn = e.target.closest("#home_tasks_item_more-options_item-edit");
+        let tasksItem = e.target.closest(".home_tasks_item");
+        let tasksMore = e.target.closest(".home_tasks_item_more-btn");
+        if (editBtn && tasksItem) {
             home_tasks_edit_container.classList.add("active");
+            tasksItem.classList.remove("active");
+            document.querySelectorAll(".home_tasks_item_more-btn").forEach(btn => {btn.classList.remove("active")});
         }
     })
 }
@@ -169,9 +173,7 @@ if (hoursE && minutesE && secondsE && toggleBtn) {
     let minutes = 0;
     let hours = 0;
     let isRunning = false;
-    let interval;
-
-    console.log(toggleBtn);
+    let interval;   
 
     function updateDisplay() {
         hoursE.textContent = String(hours).padStart(2, "0");
@@ -200,7 +202,6 @@ if (hoursE && minutesE && secondsE && toggleBtn) {
 
     toggleBtn.addEventListener("click", () => {
         if (!isRunning) {
-            console.log("start");
             startTimer();
             isRunning = true;
             toggleBtnImg.src = "res/pause-btn.svg";
@@ -211,6 +212,37 @@ if (hoursE && minutesE && secondsE && toggleBtn) {
         }
     });
 
-    // Ensure display is correct on load
     updateDisplay();
 }
+
+
+// Add task
+
+let home_tasks_edit_group_subgroup_add_task_btn = document.querySelector(".home_tasks_edit-group_subgroup_add-task-btn");
+
+if (home_tasks_edit_group_subgroup_add_task_btn) {
+    let home_tasks_edit_group_subgroup_block = document.querySelector(".home_tasks_edit-group_subgroup-block");
+    let home_tasks_edit_group_subgroup_new_task = `
+    <li class="home_tasks_edit-group_subgroup_task">
+        <label class="common-checkbox-label">
+            <input type="checkbox" class="common-checkbox">
+            <span class="common-checkbox-check"></span>
+            <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+        </label>
+    </li>
+    `;
+
+    home_tasks_edit_group_subgroup_add_task_btn.addEventListener("click", () => {
+        let temp = document.createElement("div");
+        temp.innerHTML = home_tasks_edit_group_subgroup_new_task.trim();
+        let newTask = temp.firstElementChild;
+
+        home_tasks_edit_group_subgroup_block.insertBefore(newTask, home_tasks_edit_group_subgroup_add_task_btn);
+    }) 
+}
+
+
+// Save all the tasks in localStorage
+
+let groups = JSON.parse(localStorage.getItem("groups")) || [];
+

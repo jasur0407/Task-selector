@@ -55,90 +55,43 @@
         </div>
     </div>
 
-    <div class="home_tasks_edit-container">
+    <div class="home_tasks_edit-container active">
         <div class="home_tasks_edit-inner">
-            <div class="home_tasks_edit-cross">
-                <img src="res/cross-icon.svg" alt="X">
-            </div>
-            <input class="home_tasks_edit-group-name" type="text" placeholder="Group name"></input>
-            <div class="home_tasks_edit-group_task">
-                <div class="home_tasks_edit-group_task-title">Speaking</div>
-                <ul class="home_tasks_edit-group_task-block">
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            <div class="home_tasks_edit-group_task">
-                <div class="home_tasks_edit-group_task-title">Reading</div>
-                <ul class="home_tasks_edit-group_task-block">
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            <div class="home_tasks_edit-group_task">
-                <div class="home_tasks_edit-group_task-title">Listening</div>
-                <ul class="home_tasks_edit-group_task-block">
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                    <li class="home_tasks_edit-group_task_item">
-                        <label class="common-checkbox-label">
-                            <input type="checkbox" class="common-checkbox">
-                            <span class="common-checkbox-check"></span>
-                            <span class="home_tasks_edit-group_task_item-checkbox-text common-checkbox-text">Lorem, ipsum dolor.</span>
-                        </label>
-                    </li>
-                </ul>
-            </div>
+            <form class="home_tasks_edit_group-form">
+                <div class="home_tasks_edit-cross">
+                    <img src="res/cross-icon.svg" alt="X">
+                </div>
+                <input class="home_tasks_edit-group-name" type="text" placeholder="Group name" required></input>
+                <div class="home_tasks_edit-group_subgroup">
+                    <input type="text" placeholder="Subgroup name" class="home_tasks_edit-group_subgroup-title">
+                    <ul class="home_tasks_edit-group_subgroup-block">
+                        <li class="home_tasks_edit-group_subgroup_task">
+                            <label class="common-checkbox-label">
+                                <input type="checkbox" class="common-checkbox">
+                                <span class="common-checkbox-check"></span>
+                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+                            </label>
+                        </li>
+                        <li class="home_tasks_edit-group_subgroup_task">
+                            <label class="common-checkbox-label">
+                                <input type="checkbox" class="common-checkbox">
+                                <span class="common-checkbox-check"></span>
+                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+                            </label>
+                        </li>
+                        <li class="home_tasks_edit-group_subgroup_task">
+                            <label class="common-checkbox-label">
+                                <input type="checkbox" class="common-checkbox">
+                                <span class="common-checkbox-check"></span>
+                                <input type="text" class="home_tasks_edit-group_subgroup_task-checkbox-text common-checkbox-text" placeholder="Task">
+                            </label>
+                        </li>
+                        <button class="home_tasks_edit-group_subgroup_add-task-btn common-add-btn">+ Add a new task</button>
+                    </ul>
+                </div>
+
+                <button class="red-btn home_tasks_edit_group-form_save-btn">Save</button>
+            </form>
         </div>
     </div>
         

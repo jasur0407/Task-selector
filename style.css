@@ -275,6 +275,108 @@ body {
 }
 
 
+.home_tasks_edit-container {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(39, 62, 71, 0.5);
+    justify-content: center;
+    align-items: center;
+    display: none;
+    z-index: 3;
+}
+
+.home_tasks_edit-container.active {
+    display: flex;
+}
+
+.home_tasks_edit-inner {
+    width: 1200px;
+    height: 700px;
+    padding: 40px 60px;
+    background-color: var(--secondary);
+    border-radius: 40px;
+    border: 2px solid var(--primary);
+    overflow-y: auto;
+    position: relative;
+}
+
+.home_tasks_edit-cross {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.home_tasks_edit-cross img {
+    width: 25px;
+}
+
+.home_tasks_edit-cross:hover {
+    background-color: var(--background)
+}
+
+.home_tasks_edit-group-name {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding: 5px;
+    border-bottom: 3px solid var(--primary);
+    width: 80%;
+    font-size: 30px;
+    color: var(--primary-text);
+}
+
+.home_tasks_edit-group_subgroup {
+    margin-top: 35px;
+}
+
+.home_tasks_edit-group_subgroup-title {
+    font-size: 30px;
+    font-family: "Inter", sans-serif;
+    font-weight: normal;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-bottom: 10px;
+    width: 40%;
+}
+
+.home_tasks_edit-group_subgroup-block {
+    margin-left: 35px;
+}
+
+.home_tasks_edit-group_subgroup_task {
+    list-style: none;
+    margin-top: 15px;
+}
+
+.home_tasks_edit-group_subgroup_task-checkbox-text {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: 22px;
+    width: 80%;
+}
+
+.home_tasks_edit_group-form_save-btn {
+    font-size: 22px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
 
 
 
@@ -470,6 +572,22 @@ body {
     font-weight: normal;
 }
 
+.common-add-btn {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin-top: 15px;
+    padding: 5px 10px 5px 10px;
+    font-size: 18px;
+    color: var(--primary);
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+.common-add-btn:hover {
+    background-color: #ffe0af;
+}
+
 .time-notes {
     margin-top: 50px;
     padding: 20px;
@@ -486,81 +604,4 @@ body {
 .time-notes:focus {
     outline: none;
     border: 3px solid var(--accent);
-}
-
-.home_tasks_edit-container {
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(39, 62, 71, 0.5);
-    justify-content: center;
-    align-items: center;
-    display: none;
-    z-index: 3;
-}
-
-.home_tasks_edit-container.active {
-    display: flex;
-}
-
-.home_tasks_edit-inner {
-    width: 1200px;
-    height: 700px;
-    padding: 40px 60px;
-    background-color: var(--secondary);
-    border-radius: 40px;
-    border: 2px solid var(--primary);
-    overflow-y: auto;
-    position: relative;
-}
-
-.home_tasks_edit-cross {
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.1s ease;
-    cursor: pointer;
-}
-
-.home_tasks_edit-cross img {
-    width: 25px;
-}
-
-.home_tasks_edit-cross:hover {
-    background-color: var(--background)
-}
-
-.home_tasks_edit-group-name {
-    background-color: transparent;
-    outline: none;
-    border: none;
-    padding: 5px 10px;
-    border-bottom: 2px solid var(--primary);
-    width: 80%;
-    font-size: 30px;
-    color: var(--primary-text);
-}
-
-.home_tasks_edit-group_task {
-    margin-top: 35px;
-}
-
-.home_tasks_edit-group_task-title {
-    font-size: 30px;
-    font-family: "Inter", sans-serif;
-    font-weight: normal;
-}
-
-.home_tasks_edit-group_task_item {
-    list-style: none;
-    margin-top: 15px;
-    margin-left: 35px;
 }
