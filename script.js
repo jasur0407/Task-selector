@@ -301,3 +301,44 @@ if (home_tasks_edit_group_add_subgroup_btn) {
 
 let groups = JSON.parse(localStorage.getItem("groups")) || [];
 
+let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-form");
+let home_tasks_edit_group_name = document.querySelector(".home_tasks_edit-group-name");
+
+home_tasks_edit_group_form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let groupName = home_tasks_edit_group_name.value.trim();
+    if (!groupName) return;
+
+    let subgroupEls = document.querySelectorAll(".home_tasks_edit-group_subgroup");
+    subgroups = [];
+
+    subgroupEls.forEach((subgroupEl, i) => {
+        let subgroupName = subgroupEl.querySelector(".home_tasks_edit-group_subgroup-title");
+
+        let taskEls = document.querySelectorAll(".home_tasks_edit-group_subgroup-block input[type='text']");
+        let tasks = Array.from(taskEls).map(el => el.value.trim()).filter(v => v);
+
+        let resEls = document.querySelectorAll(".home_tasks_edit-group_subgroup_resource-block input[type='text']");
+        let resources = Array.from(resEls).map(el => el.value.trim()).filter(v => v);
+        
+        subgroups.push({
+            id: `subgroup-${Date.now()}-${i}`,
+            name: subgroupName,
+            tasks: tasks,
+            resources: resources
+        });
+    });
+
+    newGroup = {
+        id: `group-${Date.now()}`,
+        name: groupName,
+        subgroups: subgroups
+    };
+
+    groups.push(newGroup);
+    localStorage.setItem("groups", JSON.stringify(groups));
+
+    console.log("Saved group:", newGroup);
+    home_tasks_edit_group_form.reset();
+});
