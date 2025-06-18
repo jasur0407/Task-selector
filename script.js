@@ -128,10 +128,9 @@ if (home_tasks_item_more_options_item_delete && home_tasks_row) {
 // Edit group btn
 
 
-let home_tasks_edit_btn = document.querySelector("#home_tasks_item_more-options_item-edit");
 let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
 
-if (home_tasks_edit_btn && home_tasks_edit_container && home_tasks_row) {
+if (home_tasks_item && home_tasks_edit_container && home_tasks_row) {
     home_tasks_row.addEventListener("click", function(e) {
         let editBtn = e.target.closest("#home_tasks_item_more-options_item-edit");
         let tasksItem = e.target.closest(".home_tasks_item");
@@ -339,6 +338,6 @@ home_tasks_edit_group_form.addEventListener("submit", function(e) {
     groups.push(newGroup);
     localStorage.setItem("groups", JSON.stringify(groups));
 
-    console.log("Saved group:", newGroup);
+    console.log(localStorage);
     home_tasks_edit_group_form.reset();
 });
