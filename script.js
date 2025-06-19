@@ -1,7 +1,8 @@
 let home_tasks_start_btn = document.querySelector("#home_tasks_start-btn");
 let home_tasks_add_btn = document.querySelector(".home_tasks_add-btn");
 let home_tasks_row = document.querySelector(".home_tasks-row");
-let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-form")
+let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-form");
+let home_tasks_item = document.querySelectorAll(".home_tasks_item");
 
 function loadGroups() {
     return JSON.parse(localStorage.getItem("groups") || "[]");
@@ -67,6 +68,7 @@ let home_tasks_random_btn = document.querySelector("#home_tasks_random-btn");
 
 if (home_tasks_random_btn) {
     home_tasks_random_btn.addEventListener("click", function() {
+        home_tasks_item = document.querySelectorAll(".home_tasks_item");
         let rand_group = Math.floor(Math.random() * home_tasks_item.length);
         home_tasks_item.forEach(item => {
             item.classList.remove("active");
@@ -78,8 +80,6 @@ if (home_tasks_random_btn) {
 
 
 /* More options btn */
-
-let home_tasks_item = document.querySelectorAll(".home_tasks_item");
 
 if (home_tasks_row)  {
     home_tasks_row.addEventListener("click", function(e) {
