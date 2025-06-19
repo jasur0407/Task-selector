@@ -366,28 +366,6 @@ body {
     position: relative;
 }
 
-.home_tasks_edit-cross {
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.1s ease;
-    cursor: pointer;
-}
-
-.home_tasks_edit-cross img {
-    width: 25px;
-}
-
-.home_tasks_edit-cross:hover {
-    background-color: var(--background)
-}
-
 .home_tasks_edit-group-name {
     background-color: transparent;
     outline: none;
