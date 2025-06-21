@@ -40,6 +40,10 @@ function renderGroups() {
     });
 }
 
+groups = loadGroups();
+renderGroups();
+console.log(localStorage)
+
 
 
 // Select group
@@ -101,19 +105,19 @@ if (home_tasks_row)  {
 // Delete group btn
 
 
-let home_tasks_item_more_options_item_delete = document.querySelectorAll("#home_tasks_item_more-options_item-delete");
+let home_tasks_item_more_options_item_delete = document.querySelectorAll(".home_tasks_item_delete");
 
-if (home_tasks_item_more_options_item_delete && home_tasks_row) {
+if (home_tasks_row) {
     home_tasks_row.addEventListener("click", function(e) {
-        let deleteBtn = e.target.closest("#home_tasks_item_more-options_item-delete");
+        let deleteBtn = e.target.closest(".home_tasks_item_delete");
         if (deleteBtn) {
             let deletingItem = deleteBtn.closest(".home_tasks_item");
-            deletingItem.remove();
-            home_tasks_item = document.querySelectorAll(".home_tasks_item")
-            home_tasks_item.forEach(item => {
-                item.classList.remove("active");
-                home_tasks_start_btn.classList.add("unavailable")
-            })
+            let groupId = deletingItem.dataset.groupId;
+            let groups = loadGroups();
+            groups = groups.filter(group => group.id !== groupId);
+            saveGroups(groups);
+            home_tasks_start_btn.classList.remove();
+            renderGroups();
         }
     })
 }
@@ -138,7 +142,7 @@ if (home_tasks_item && home_tasks_edit_container && home_tasks_row) {
 }
 
 
-renderGroups();
+
 
 
 /* Add new group btn */
@@ -173,6 +177,7 @@ if (home_tasks_add_btn) {
     
 
     home_tasks_add_btn.addEventListener("click", function() {
+        home_tasks_item = document.querySelectorAll(".home_tasks_item");
         let home_tasks_item_length = home_tasks_item.length;
         if (home_tasks_item_length >= home_tasks_max_item) {
             alert("Max reached");
@@ -215,7 +220,6 @@ if (home_tasks_add_btn) {
                 localStorage.setItem("groups", JSON.stringify(groups));
                 home_tasks_edit_group_form.reset();
 
-                console.log(localStorage);
                 home_tasks_edit_container.classList.remove("active");
                 renderGroups();
             })
