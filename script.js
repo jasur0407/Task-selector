@@ -3,6 +3,7 @@ let home_tasks_add_btn = document.querySelector(".home_tasks_add-btn");
 let home_tasks_row = document.querySelector(".home_tasks-row");
 let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-form");
 let home_tasks_item = document.querySelectorAll(".home_tasks_item");
+let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
 
 function loadGroups() {
     return JSON.parse(localStorage.getItem("groups") || "[]");
@@ -123,26 +124,6 @@ if (home_tasks_row) {
 }
 
 
-// Edit group btn
-
-
-let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
-
-if (home_tasks_item && home_tasks_edit_container && home_tasks_row) {
-    home_tasks_row.addEventListener("click", function(e) {
-        let editBtn = e.target.closest("#home_tasks_item_more-options_item-edit");
-        let tasksItem = e.target.closest(".home_tasks_item");
-        let tasksMore = e.target.closest(".home_tasks_item_more-btn");
-        if (editBtn && tasksItem) {
-            home_tasks_edit_container.classList.add("active");
-            tasksItem.classList.remove("active");
-            document.querySelectorAll(".home_tasks_item_more-btn").forEach(btn => {btn.classList.remove("active")});
-        }
-    })
-}
-
-
-
 
 
 /* Add new group btn */
@@ -194,14 +175,19 @@ if (home_tasks_add_btn) {
                 subgroups = [];
 
                 subgroupEls.forEach((subgroupEl, i) => {
-                    let subgroupName = subgroupEl.querySelector(".home_tasks_edit-group_subgroup-title");
+                    let subgroupName = subgroupEl.querySelector(".home_tasks_edit-group_subgroup-title").value.trim();
 
-                    let taskEls = document.querySelectorAll(".home_tasks_edit-group_subgroup-block input[type='text']");
+                    let taskEls = subgroupEl.querySelectorAll(".home_tasks_edit-group_subgroup_task input[type='text']");
                     let tasks = Array.from(taskEls).map(el => el.value.trim()).filter(v => v);
 
-                    let resEls = document.querySelectorAll(".home_tasks_edit-group_subgroup_resource-block input[type='text']");
-                    let resources = Array.from(resEls).map(el => el.value.trim()).filter(v => v);
-                    
+                    let resEls = subgroupEl.querySelectorAll(".home_tasks_edit-group_subgroup_resource_item input[type='text']");
+                    let resources = [];
+                    for (let j = 0; j < resEls.length; j += 2) {
+                        let title = resEls[j].value.trim();
+                        let link = resEls[j + 1]?.value.trim() || "";
+                        if (title || link) resources.push({ title, link });
+                    }
+
                     subgroups.push({
                         id: `subgroup-${Date.now()}-${i}`,
                         name: subgroupName,
@@ -222,6 +208,7 @@ if (home_tasks_add_btn) {
 
                 home_tasks_edit_container.classList.remove("active");
                 renderGroups();
+                console.log(localStorage)
             })
         }
     });
@@ -232,7 +219,7 @@ if (home_tasks_add_btn) {
 
 let home_tasks_edit_group_subgroup_add_task_btn = document.querySelector(".home_tasks_edit-group_subgroup_add-task-btn");
 
-if (home_tasks_edit_group_subgroup_add_task_btn) {
+function addTask() {
     let home_tasks_edit_group_subgroup_block = document.querySelector(".home_tasks_edit-group_subgroup-block");
     let home_tasks_edit_group_subgroup_new_task = `
     <div class="home_tasks_edit-group_subgroup_task">
@@ -253,12 +240,16 @@ if (home_tasks_edit_group_subgroup_add_task_btn) {
     }) 
 }
 
+if (home_tasks_edit_group_subgroup_add_task_btn) {
+    addTask();
+}
+
 
 // Add new source
 
 let home_tasks_edit_group_subgroup_resource_add_btn = document.querySelector(".home_tasks_edit-group_subgroup_resource_add-btn");
 
-if (home_tasks_edit_group_subgroup_resource_add_btn) {
+function addSource() {
     let home_tasks_edit_group_subgroup_resource_new_item = `
     <div class="home_tasks_edit-group_subgroup_resource_item">
         <input type="text" class="home_tasks_edit-group_subgroup_resource_item-title common-text-input" placeholder="Title"/>
@@ -276,12 +267,16 @@ if (home_tasks_edit_group_subgroup_resource_add_btn) {
     })
 }
 
+if (home_tasks_edit_group_subgroup_resource_add_btn) {
+    addSource();
+}
+
 
 // Add new subgroup
 
 let home_tasks_edit_group_add_subgroup_btn = document.querySelector(".home_tasks_edit_group_add-subgroup-btn");
 
-if (home_tasks_edit_group_add_subgroup_btn) {
+function addSubgroup() {
     let home_tasks_edit_group_new_subgroup = `
     <div class="home_tasks_edit-group_subgroup">
         <input type="text" placeholder="Subgroup name" class="home_tasks_edit-group_subgroup-title">
@@ -308,51 +303,57 @@ if (home_tasks_edit_group_add_subgroup_btn) {
     })
 }
 
-/*
-// Save all the tasks in localStorage
+if (home_tasks_edit_group_add_subgroup_btn) {
+    addSubgroup();
+}
 
-let groups = JSON.parse(localStorage.getItem("groups")) || [];
 
-let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-form");
-let home_tasks_edit_group_name = document.querySelector(".home_tasks_edit-group-name");
 
-home_tasks_edit_group_form.addEventListener("submit", function(e) {
-    e.preventDefault();
+// Editing the group
 
-    let groupName = home_tasks_edit_group_name.value.trim();
-    if (!groupName) return;
+if (home_tasks_row) {
+    home_tasks_row.addEventListener("click", function(e) {
+        let editBtn = e.target.closest(".home_tasks_item_edit");
+        let tasksItem = e.target.closest(".home_tasks_item")
+        if (editBtn) {
+            let editingGroupId = editBtn.dataset.groupId;
+            groups = loadGroups();
+            let editingGroup = groups.find(g => g.id === editingGroupId);
+            if (!editingGroup) return;
 
-    let subgroupEls = document.querySelectorAll(".home_tasks_edit-group_subgroup");
-    subgroups = [];
+            // Load all the previous group info to the form from the localStorage
+            home_tasks_edit_group_form.reset();
+            home_tasks_edit_container.classList.add("active");
+            document.querySelector(".home_tasks_edit-group-name").value = editingGroup.name;
+            if (editingGroup.subgroups.length != 1) {
+                subgroupsCount = editingGroup.subgroups.length;
+                for (let i = 0; i < subgroupsCount; i++) {
+                    addSubgroup();
+                }
+            }
 
-    subgroupEls.forEach((subgroupEl, i) => {
-        let subgroupName = subgroupEl.querySelector(".home_tasks_edit-group_subgroup-title");
+            tasksCount = editingGroup.tasks.length;
+            
+            for (let i = 0; i < tasksCount; i++) {
+                addTask();
+                editingGroupTasks = home_tasks_edit_container.querySelectorAll(".home_tasks_edit-group_subgroup_task");
+                editingGroupTasks[i].textContent = editingGroup.tasks[i]
+            }
 
-        let taskEls = document.querySelectorAll(".home_tasks_edit-group_subgroup-block input[type='text']");
-        let tasks = Array.from(taskEls).map(el => el.value.trim()).filter(v => v);
+            sourcesCount = editingGroup.resources.length;
+            for (let i = 0; i < sourcesCount; i++) {
+                addSource();
+            }
 
-        let resEls = document.querySelectorAll(".home_tasks_edit-group_subgroup_resource-block input[type='text']");
-        let resources = Array.from(resEls).map(el => el.value.trim()).filter(v => v);
-        
-        subgroups.push({
-            id: `subgroup-${Date.now()}-${i}`,
-            name: subgroupName,
-            tasks: tasks,
-            resources: resources
-        });
-    });
+            tasksItem.classList.remove("active");
+            document.querySelectorAll(".home_tasks_item_more-btn").forEach(btn => {btn.classList.remove("active")});
+        }
+    })
+}
 
-    newGroup = {
-        id: `group-${Date.now()}`,
-        name: groupName,
-        subgroups: subgroups
-    };
 
-    groups.push(newGroup);
-    localStorage.setItem("groups", JSON.stringify(groups));
-    home_tasks_edit_group_form.reset();
-});
-*/
+
+
 
 
 // Time tracker
