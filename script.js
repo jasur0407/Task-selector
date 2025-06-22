@@ -155,7 +155,7 @@ if (home_tasks_add_btn) {
     let home_tasks_edit_group_name = document.querySelector(".home_tasks_edit-group-name");
     let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
     let groups = JSON.parse(localStorage.getItem("groups")) || [];
-    
+
 
     home_tasks_add_btn.addEventListener("click", function() {
         home_tasks_item = document.querySelectorAll(".home_tasks_item");
@@ -219,8 +219,7 @@ if (home_tasks_add_btn) {
 
 let home_tasks_edit_group_subgroup_add_task_btn = document.querySelector(".home_tasks_edit-group_subgroup_add-task-btn");
 
-function addTask() {
-    let home_tasks_edit_group_subgroup_block = document.querySelector(".home_tasks_edit-group_subgroup-block");
+function addTask(taskAddingSubgroup) {
     let home_tasks_edit_group_subgroup_new_task = `
     <div class="home_tasks_edit-group_subgroup_task">
         <label class="common-checkbox-label">
@@ -231,17 +230,21 @@ function addTask() {
     </div>
     `;
 
-    home_tasks_edit_group_subgroup_add_task_btn.addEventListener("click", () => {
-        let temp = document.createElement("div");
-        temp.innerHTML = home_tasks_edit_group_subgroup_new_task.trim();
-        let newTask = temp.firstElementChild;
+    let temp = document.createElement("div");
+    temp.innerHTML = home_tasks_edit_group_subgroup_new_task.trim();
+    let newTask = temp.firstElementChild;
+    home_tasks_edit_group_subgroup_add_task_btn = taskAddingSubgroup.querySelector(".home_tasks_edit-group_subgroup_add-task-btn");
 
-        home_tasks_edit_group_subgroup_block.insertBefore(newTask, home_tasks_edit_group_subgroup_add_task_btn);
-    }) 
+    taskAddingSubgroup.insertBefore(newTask, home_tasks_edit_group_subgroup_add_task_btn);
+
 }
 
 if (home_tasks_edit_group_subgroup_add_task_btn) {
-    addTask();
+    home_tasks_edit_group_form.addEventListener("click", (e) => {
+        if (e.target.closest(".home_tasks_edit-group_subgroup_add-task-btn")) {
+            addTask(e.target.closest(".home_tasks_edit-group_subgroup-block"));
+        }
+    })
 }
 
 
@@ -249,7 +252,7 @@ if (home_tasks_edit_group_subgroup_add_task_btn) {
 
 let home_tasks_edit_group_subgroup_resource_add_btn = document.querySelector(".home_tasks_edit-group_subgroup_resource_add-btn");
 
-function addSource() {
+function addSource(resAddingSubgroup) {
     let home_tasks_edit_group_subgroup_resource_new_item = `
     <div class="home_tasks_edit-group_subgroup_resource_item">
         <input type="text" class="home_tasks_edit-group_subgroup_resource_item-title common-text-input" placeholder="Title"/>
@@ -257,18 +260,20 @@ function addSource() {
     </div>
     `;
     
-    home_tasks_edit_group_subgroup_resource_add_btn.addEventListener("click", () => {
-        let home_tasks_edit_group_subgroup_resource_block = document.querySelector(".home_tasks_edit-group_subgroup_resource-block");
-        let temp = document.createElement("div");
-        temp.innerHTML = home_tasks_edit_group_subgroup_resource_new_item.trim();
-        let newSource = temp.firstElementChild;
+    let temp = document.createElement("div");
+    temp.innerHTML = home_tasks_edit_group_subgroup_resource_new_item.trim();
+    let newSource = temp.firstElementChild;
+    let home_tasks_edit_group_subgroup_add_source_btn = resAddingSubgroup.querySelector(".home_tasks_edit-group_subgroup_resource_add-btn");
 
-        home_tasks_edit_group_subgroup_resource_block.insertBefore(newSource, home_tasks_edit_group_subgroup_resource_add_btn);
-    })
+    resAddingSubgroup.insertBefore(newSource, home_tasks_edit_group_subgroup_add_source_btn);
 }
 
 if (home_tasks_edit_group_subgroup_resource_add_btn) {
-    addSource();
+    home_tasks_edit_group_form.addEventListener("click", (e) => {
+        if (e.target.closest(".home_tasks_edit-group_subgroup_resource_add-btn")) {
+            addSource(e.target.closest(".home_tasks_edit-group_subgroup_resource-block"));
+        }
+    })
 }
 
 
@@ -294,17 +299,18 @@ function addSubgroup() {
     `;
     let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-form");
 
-    home_tasks_edit_group_add_subgroup_btn.addEventListener("click", () => {
-        let temp = document.createElement("div");
-        temp.innerHTML = home_tasks_edit_group_new_subgroup.trim();
-        let newSubgroup = temp.firstElementChild;
+    
+    let temp = document.createElement("div");
+    temp.innerHTML = home_tasks_edit_group_new_subgroup.trim();
+    let newSubgroup = temp.firstElementChild;
 
-        home_tasks_edit_group.insertBefore(newSubgroup, home_tasks_edit_group_add_subgroup_btn);
-    })
+    home_tasks_edit_group_form.insertBefore(newSubgroup, home_tasks_edit_group_add_subgroup_btn);
 }
 
 if (home_tasks_edit_group_add_subgroup_btn) {
-    addSubgroup();
+    home_tasks_edit_group_add_subgroup_btn.addEventListener("click", () => {
+        addSubgroup();
+    })
 }
 
 
@@ -323,26 +329,22 @@ if (home_tasks_row) {
 
             // Load all the previous group info to the form from the localStorage
             home_tasks_edit_group_form.reset();
+            home_tasks_edit_group_form.querySelectorAll(".home_tasks_edit-group_subgroup").forEach(subgroup => {subgroup.remove()})
             home_tasks_edit_container.classList.add("active");
             document.querySelector(".home_tasks_edit-group-name").value = editingGroup.name;
-            if (editingGroup.subgroups.length != 1) {
-                subgroupsCount = editingGroup.subgroups.length;
-                for (let i = 0; i < subgroupsCount; i++) {
-                    addSubgroup();
+
+            subgroupsCount = editingGroup.subgroups.length;
+            for (let i = 0; i < subgroupsCount; i++) {
+                addSubgroup();
+                
+                home_tasks_edit_group_subgroups = home_tasks_edit_container.querySelectorAll(".home_tasks_edit-group_subgroup");
+                home_tasks_edit_group_subgroups[i].querySelector(".home_tasks_edit-group_subgroup-title").value = editingGroup.subgroups[i].name;
+                let subgroupTasks = editingGroup.subgroups[i].tasks;    
+                let subgroupTasksCount = subgroupTasks.length;
+                for (let j = 0; j < subgroupTasksCount; j++) {
+                    addTask(home_tasks_edit_group_subgroups[i].querySelector(".home_tasks_edit-group_subgroup-block"));
+                    console.log('task added')
                 }
-            }
-
-            tasksCount = editingGroup.tasks.length;
-            
-            for (let i = 0; i < tasksCount; i++) {
-                addTask();
-                editingGroupTasks = home_tasks_edit_container.querySelectorAll(".home_tasks_edit-group_subgroup_task");
-                editingGroupTasks[i].textContent = editingGroup.tasks[i]
-            }
-
-            sourcesCount = editingGroup.resources.length;
-            for (let i = 0; i < sourcesCount; i++) {
-                addSource();
             }
 
             tasksItem.classList.remove("active");
