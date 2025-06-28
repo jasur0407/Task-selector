@@ -42,7 +42,9 @@ function renderGroups() {
 }
 
 groups = loadGroups();
-renderGroups();
+if (home_tasks_row){
+    renderGroups();
+}
 console.log(localStorage)
 
 
@@ -374,6 +376,24 @@ if (home_tasks_row) {
 }
 
 
+// Start button
+
+function start_btn() {
+    let home_tasks_items = document.querySelectorAll(".home_tasks_item");
+    for(let i = 0; i < home_tasks_items.length; i++) {
+        if (home_tasks_items[i].classList.contains("active")) {
+            let chosenGroupId = home_tasks_items[i].dataset.groupId;
+            home_tasks_start_btn.href = `set-up.html?groupId=${chosenGroupId}`
+        }
+    }
+}
+
+
+/* 
+let urlParams = new URLSearchParams(window.location.search);
+chosenGroupId = urlParams.get(groupId);
+console.log(chosenGroupId);
+*/
 
 
 
