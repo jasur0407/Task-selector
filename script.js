@@ -339,11 +339,31 @@ if (home_tasks_row) {
                 
                 home_tasks_edit_group_subgroups = home_tasks_edit_container.querySelectorAll(".home_tasks_edit-group_subgroup");
                 home_tasks_edit_group_subgroups[i].querySelector(".home_tasks_edit-group_subgroup-title").value = editingGroup.subgroups[i].name;
+                // Adding tasks
                 let subgroupTasks = editingGroup.subgroups[i].tasks;    
                 let subgroupTasksCount = subgroupTasks.length;
                 for (let j = 0; j < subgroupTasksCount; j++) {
                     addTask(home_tasks_edit_group_subgroups[i].querySelector(".home_tasks_edit-group_subgroup-block"));
-                    console.log('task added')
+                }
+
+                // Adding sources
+                let subgroupSources = editingGroup.subgroups[i].resources;
+                let subgroupSourcesCount = subgroupSources.length;
+                for (let j = 0; j < subgroupSourcesCount; j++) {
+                    addSource(home_tasks_edit_group_subgroups[i].querySelector(".home_tasks_edit-group_subgroup_resource-block"));
+                    console.log('source added');
+                }
+
+                // Inserting content of tasks
+                let home_tasks_edit_group_subgroup_tasks = home_tasks_edit_group_subgroups[i].querySelectorAll(".home_tasks_edit-group_subgroup_task");
+                for (let j = 0; j < subgroupTasksCount; j++) {
+                    home_tasks_edit_group_subgroup_tasks[j].querySelector(".home_tasks_edit-group_subgroup_task-checkbox-text").value = subgroupTasks[j];
+                }
+                // Inserting content of sources
+                let home_tasks_edit_group_subgroup_resource_items = home_tasks_edit_group_subgroups[i].querySelectorAll(".home_tasks_edit-group_subgroup_resource_item");
+                for (let j = 0; j < subgroupSourcesCount; j++) {
+                    home_tasks_edit_group_subgroup_resource_items[j].querySelector(".home_tasks_edit-group_subgroup_resource_item-title").value = subgroupSources[j].title;
+                    home_tasks_edit_group_subgroup_resource_items[j].querySelector(".home_tasks_edit-group_subgroup_resource_item-link").value = subgroupSources[j].link;
                 }
             }
 
