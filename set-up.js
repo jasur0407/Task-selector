@@ -3,7 +3,9 @@
 let urlParams = new URLSearchParams(window.location.search);
 chosenGroupId = urlParams.get("groupId");
 groups = JSON.parse(localStorage.getItem("groups") || "[]");
-chosenGroup = groups.find(g => g.id === chosenGroupId);
+
+
+let chosenGroup = groups.find(g => g.id === chosenGroupId);
 
 set_up_res_content = document.querySelector(".set-up-res-content");
 

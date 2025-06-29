@@ -42,10 +42,7 @@ function renderGroups() {
 }
 
 groups = loadGroups();
-if (home_tasks_row){
-    renderGroups();
-}
-console.log(localStorage)
+renderGroups()
 
 
 
@@ -133,27 +130,6 @@ if (home_tasks_row) {
 let home_tasks_max_item = 4;
 
 if (home_tasks_add_btn) {
-    /*let home_tasks_new_item = `
-        <div class="home_tasks_item">
-            <div class="home_tasks_item_more">
-                <div class="home_tasks_item_more-btn">
-                    <img src="res/multidot.svg" alt="more">
-                </div>
-                <div class="home_tasks_item_more-options">
-                    <div class="home_tasks_item_more-options_item" id="home_tasks_item_more-options_item-edit">
-                        <img src="res/edit-icon.svg" alt="Edit" class="home_tasks_item_more-options_item-icon">
-                        <div class="home_tasks_item_more-options_item-text">Edit</div>
-                    </div>
-                    <div class="home_tasks_item_more-options_item" id="home_tasks_item_more-options_item-delete">
-                        <img src="res/delete-icon.svg" alt="Delete" class="home_tasks_item_more-options_item-icon">
-                        <div class="home_tasks_item_more-options_item-text">Delete</div>
-                    </div>
-                </div>
-            </div>
-            <div class="home_tasks_item-header">New group</div>
-            <div class="home_tasks_item-desc"></div>
-        </div>
-    `;*/
     let home_tasks_edit_group_name = document.querySelector(".home_tasks_edit-group-name");
     let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
     let groups = JSON.parse(localStorage.getItem("groups")) || [];
