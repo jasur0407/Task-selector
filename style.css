@@ -20,12 +20,12 @@
     font-weight: bold;
 }
 
-/*font {
+font {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-}*/
+}
 
 
 
@@ -136,6 +136,11 @@ body {
 }
 
 .common-checkbox:checked + .common-checkbox-check + .common-text-input {
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.common-checkbox:checked + .common-checkbox-check + .common-checkbox-text {
     text-decoration: line-through;
     opacity: 0.8;
 }
@@ -608,6 +613,7 @@ body {
     color: var(--primary-text);
     font-size: 18px;
     resize: none;
+    margin-bottom: 50px;
 }
 
 .time-notes:focus {
