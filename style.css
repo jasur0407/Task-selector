@@ -371,6 +371,19 @@ body {
     position: relative;
 }
 
+.home_tasks_edit-cross {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    position: absolute;
+    right: 40px;
+    top: 20px;
+}
+
+.home_tasks_edit-cross:hover {
+    background-color: rgba(39, 62, 71, 0.2);
+}
+
 .home_tasks_edit-group-name {
     background-color: transparent;
     outline: none;
@@ -417,10 +430,7 @@ body {
 
 .home_tasks_edit_group-form_save-btn {
     font-size: 22px;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 0 auto;
 }
 
 .home_tasks_edit-group_subgroup_resource {
