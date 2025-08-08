@@ -74,8 +74,8 @@ body {
 }
 
 .red-btn:hover {
-    background-color: #b81d39;
-    color: #ffaf1a;
+    background-color: var(--accent);
+    color: var(--dark-primary);
 }
 
 .yellow-btn {
@@ -95,8 +95,8 @@ body {
 }
 
 .yellow-btn:hover {
-    background-color: #ffaf1a;
-    color: #b81d39;
+    background-color: var(--dark-primary);
+    color: var(--accent);
 }
 
 .common-checkbox-label {
@@ -128,6 +128,7 @@ body {
     top: 0;
     left: 0;
     transition: all 0.1s ease;
+    flex-shrink: 0;
 }   
 
 .common-checkbox:checked ~ .common-checkbox-check {
@@ -152,10 +153,10 @@ body {
     margin-top: 15px;
     padding: 5px 10px 5px 10px;
     font-size: 18px;
-    color: var(--primary);
-    background-color: transparent;
+    color: var(--primary);  
     border-radius: 5px;
     display: inline-block;
+    
 }
 
 .common-add-btn:hover {
@@ -421,11 +422,23 @@ body {
 
 .home_tasks_edit-group_subgroup_task {
     list-style: none;
-    margin-top: 15px;
+    margin-top: 10px;
+}
+
+.home_tasks_edit-group-subgroup_task_inner input {
+    margin-right: 5px;
+    padding: 7px 10px;
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    background-color: var(--background);
 }
 
 .home_tasks_edit-group_subgroup_task-checkbox-text {
-    width: 80%;
+    width: 50%;
+}
+
+.home_tasks_edit-group_subgroup_task-points {
+    width: 100px;
 }
 
 .home_tasks_edit_group-form_save-btn {
@@ -610,7 +623,67 @@ body {
 .time-tasks_item {
     list-style-type: none;  
     cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.6s ease;
+    will-change: transform, opacity, height, margin;
+    overflow: hidden;
 }
+
+.time-tasks_item.moving {
+    opacity: 0.5;
+    transform: translateY(20px);
+}
+
+.time-tasks_item-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.time-tasks_item-label .common-checkbox-check {
+    display: block;
+    margin-top: 10px;
+}
+
+.time-tasks_item-text {
+    transform: translate();
+}
+
+.time-subgroup-title {
+    color: var(--accent);
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.time-task-due-date {
+    font-size: 0.75em;
+    color: #888;
+    margin-bottom: 2px;
+}
+
+.time-task-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.time-task-name {
+    font-weight: 500;
+    flex: 1;
+}
+
+.time-task-points {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+}
+
+.time-task-points-icon {
+    width: 25px;
+}
+
 
 .time-notes {
     margin-top: 50px;
@@ -629,4 +702,9 @@ body {
 .time-notes:focus {
     outline: none;
     border: 3px solid var(--accent);
+}
+
+.time-notes-save-btn {
+    font-size: 18px;
+    margin-bottom: 240px;
 }

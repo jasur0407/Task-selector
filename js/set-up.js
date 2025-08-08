@@ -1,5 +1,6 @@
-// setup.js
-import { loadGroups } from './storage.js';
+function loadGroups() {
+    return JSON.parse(localStorage.getItem("groups") || "[]");
+}
 
 const urlParams = new URLSearchParams(window.location.search);
 const chosenGroupId = urlParams.get("groupId");
