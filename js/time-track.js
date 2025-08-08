@@ -33,38 +33,104 @@
     const toggleBtn = document.querySelector(".time-play-pause-btn");
     const toggleBtnImg = document.querySelector(".time-play-pause-btn-img");
 
-    let seconds = 0, minutes = 0, hours = 0, isRunning = false, intervalId = null;
+    const TIMER_KEYS = {
+        elapsed: "timerElapsedSeconds",
+        start: "timerStartTimestamp",
+        running: "timerIsRunning"
+    };
+
+    let elapsedSeconds = 0;
+    let isRunning = false;
+    let intervalId = null;
+    let startTimestamp = null;
 
     function updateDisplay() {
+        const hours = Math.floor(elapsedSeconds / 3600);
+        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+        const seconds = elapsedSeconds % 60;
         hoursE.textContent = String(hours).padStart(2, "0");
         minutesE.textContent = String(minutes).padStart(2, "0");
         secondsE.textContent = String(seconds).padStart(2, "0");
     }
 
-    function startTimer() {
+    function startTimer(options = { preserveStart: false }) {
         if (intervalId) clearInterval(intervalId);
-        intervalId = setInterval(() => {
-            seconds++;
-            if (seconds >= 60) { seconds = 0; minutes++; }
-            if (minutes >= 60) { minutes = 0; hours++; }
+
+        if (options.preserveStart) {
+            startTimestamp = parseInt(localStorage.getItem(TIMER_KEYS.start) || "0");
+        } else {
+            startTimestamp = Date.now();
+            localStorage.setItem(TIMER_KEYS.start, String(startTimestamp));
+        }
+
+        isRunning = true;
+        localStorage.setItem(TIMER_KEYS.running, "true");
+        if (toggleBtnImg) toggleBtnImg.src = "res/pause-btn.svg";
+
+        const baseElapsedAtStart = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
+
+        // Tick based on real time difference to avoid drift and survive tab suspension
+        const tick = () => {
+            const now = Date.now();
+            elapsedSeconds = baseElapsedAtStart + Math.floor((now - startTimestamp) / 1000);
             updateDisplay();
-        }, 1000);
+        };
+
+        tick();
+        intervalId = setInterval(tick, 1000);
     }
 
-    function stopTimer() { clearInterval(intervalId); intervalId = null; }
+    function stopTimer() {
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+
+        // Compute final elapsed and persist
+        const baseElapsedBefore = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
+        if (startTimestamp) {
+            const now = Date.now();
+            elapsedSeconds = baseElapsedBefore + Math.floor((now - startTimestamp) / 1000);
+        } else {
+            elapsedSeconds = baseElapsedBefore;
+        }
+
+        localStorage.setItem(TIMER_KEYS.elapsed, String(elapsedSeconds));
+        localStorage.setItem(TIMER_KEYS.running, "false");
+        localStorage.removeItem(TIMER_KEYS.start);
+
+        isRunning = false;
+        startTimestamp = null;
+        updateDisplay();
+        if (toggleBtnImg) toggleBtnImg.src = "res/play-btn.svg";
+    }
 
     toggleBtn?.addEventListener("click", () => {
         if (!isRunning) {
-            startTimer();
-            isRunning = true;
-            toggleBtnImg.src = "res/pause-btn.svg";
+            startTimer({ preserveStart: false });
         } else {
             stopTimer();
-            isRunning = false;
-            toggleBtnImg.src = "res/play-btn.svg";
         }
     });
-    updateDisplay();
+
+    // Initialize timer from persisted state
+    (function initTimerFromStorage() {
+        const storedElapsed = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
+        const storedRunning = localStorage.getItem(TIMER_KEYS.running) === "true";
+        const storedStart = parseInt(localStorage.getItem(TIMER_KEYS.start) || "0");
+
+        if (storedRunning && storedStart) {
+            // Recompute current elapsed and resume ticking without resetting start
+            elapsedSeconds = storedElapsed + Math.floor((Date.now() - storedStart) / 1000);
+            updateDisplay();
+            startTimer({ preserveStart: true });
+        } else {
+            elapsedSeconds = storedElapsed;
+            isRunning = false;
+            updateDisplay();
+            if (toggleBtnImg) toggleBtnImg.src = "res/play-btn.svg";
+        }
+    })();
 
     // ====== Add task with layout & persistence ======
     function addTask(task, ul, groupId, subgroupId) {
@@ -123,6 +189,28 @@
 
     // ====== Render tasks by subgroup ======
     const chosenGroupId = new URLSearchParams(window.location.search).get("groupId");
+
+    // ====== Notes persistence ======
+    const notesEl = document.querySelector(".time-notes");
+    const notesForm = notesEl?.closest("form");
+    const NOTES_KEY = chosenGroupId ? `notes:${chosenGroupId}` : "notes:global";
+
+    function loadNotes() {
+        if (!notesEl) return;
+        notesEl.value = localStorage.getItem(NOTES_KEY) || "";
+    }
+
+    function saveNotes() {
+        if (!notesEl) return;
+        localStorage.setItem(NOTES_KEY, notesEl.value || "");
+    }
+
+    loadNotes();
+    notesEl?.addEventListener("input", saveNotes);
+    notesForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        saveNotes();
+    });
     const group = loadGroups().find(g => g.id === chosenGroupId);
     const container = document.querySelector(".time-tasks-content");
 
