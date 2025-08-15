@@ -6,6 +6,7 @@
     padding: 0;
     font-family: 'Tahoma', sans-serif;
     font-weight: normal;
+    text-decoration: none;
 }
 
 @font-face {
@@ -168,7 +169,48 @@ body {
     border: none;
     background-color: transparent;
     font-size: 22px;
-} 
+}
+
+
+/* Header */
+
+.header {
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+}
+
+.header_inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_logo {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.header_right {
+    display: flex;
+    gap: 20px;
+}
+
+.header_right i {
+    color: var(--accent);
+    font-size: 24px;
+}
+
+.header_right_coins {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.header_right_coins img {
+    height: 22px;
+}
 
 
 /* Home Page */

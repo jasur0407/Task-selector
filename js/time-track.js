@@ -1,238 +1,244 @@
-    function loadGroups() {
-        return JSON.parse(localStorage.getItem("groups") || "[]");
+function renderPoints() {
+    let totalPoints = Number(localStorage.getItem("totalPoints")) || 0;
+    document.querySelector(".header_right_coins-count").textContent = totalPoints;
+}
+
+renderPoints();
+
+function loadGroups() {
+    return JSON.parse(localStorage.getItem("groups") || "[]");
+}
+
+// ====== Points handling ======
+let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 0;
+const totalPointsEl = document.getElementById("totalPoints");
+
+function updatePointsDisplay() {
+    if (totalPointsEl) totalPointsEl.textContent = totalPoints;
+    localStorage.setItem("totalPoints", totalPoints);
+}
+
+function saveTaskCheckedState(groupId, subgroupId, taskName, isChecked) {
+    let checkedTasks = JSON.parse(localStorage.getItem("checkedTasks") || "{}");
+    if (!checkedTasks[groupId]) checkedTasks[groupId] = {};
+    if (!checkedTasks[groupId][subgroupId]) checkedTasks[groupId][subgroupId] = {};
+    checkedTasks[groupId][subgroupId][taskName] = isChecked;
+    localStorage.setItem("checkedTasks", JSON.stringify(checkedTasks));
+}
+
+function isTaskChecked(groupId, subgroupId, taskName) {
+    let checkedTasks = JSON.parse(localStorage.getItem("checkedTasks") || "{}");
+    return checkedTasks[groupId]?.[subgroupId]?.[taskName] || false;
+}
+
+updatePointsDisplay();
+
+// ====== Timer ======
+const hoursE = document.querySelector(".time-timer_hours");
+const minutesE = document.querySelector(".time-timer_minutes");
+const secondsE = document.querySelector(".time-timer_seconds");
+const toggleBtn = document.querySelector(".time-play-pause-btn");
+const toggleBtnImg = document.querySelector(".time-play-pause-btn-img");
+
+const TIMER_KEYS = {
+    elapsed: "timerElapsedSeconds",
+    start: "timerStartTimestamp",
+    running: "timerIsRunning"
+};
+
+let elapsedSeconds = 0;
+let isRunning = false;
+let intervalId = null;
+let startTimestamp = null;
+
+function updateDisplay() {
+    const hours = Math.floor(elapsedSeconds / 3600);
+    const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+    const seconds = elapsedSeconds % 60;
+    hoursE.textContent = String(hours).padStart(2, "0");
+    minutesE.textContent = String(minutes).padStart(2, "0");
+    secondsE.textContent = String(seconds).padStart(2, "0");
+}
+
+function startTimer(options = { preserveStart: false }) {
+    if (intervalId) clearInterval(intervalId);
+
+    if (options.preserveStart) {
+        startTimestamp = parseInt(localStorage.getItem(TIMER_KEYS.start) || "0");
+    } else {
+        startTimestamp = Date.now();
+        localStorage.setItem(TIMER_KEYS.start, String(startTimestamp));
     }
 
-    // ====== Points handling ======
-    let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 0;
-    const totalPointsEl = document.getElementById("totalPoints");
+    isRunning = true;
+    localStorage.setItem(TIMER_KEYS.running, "true");
+    if (toggleBtnImg) toggleBtnImg.src = "res/pause-btn.svg";
 
-    function updatePointsDisplay() {
-        if (totalPointsEl) totalPointsEl.textContent = totalPoints;
-        localStorage.setItem("totalPoints", totalPoints);
-    }
+    const baseElapsedAtStart = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
 
-    function saveTaskCheckedState(groupId, subgroupId, taskName, isChecked) {
-        let checkedTasks = JSON.parse(localStorage.getItem("checkedTasks") || "{}");
-        if (!checkedTasks[groupId]) checkedTasks[groupId] = {};
-        if (!checkedTasks[groupId][subgroupId]) checkedTasks[groupId][subgroupId] = {};
-        checkedTasks[groupId][subgroupId][taskName] = isChecked;
-        localStorage.setItem("checkedTasks", JSON.stringify(checkedTasks));
-    }
-
-    function isTaskChecked(groupId, subgroupId, taskName) {
-        let checkedTasks = JSON.parse(localStorage.getItem("checkedTasks") || "{}");
-        return checkedTasks[groupId]?.[subgroupId]?.[taskName] || false;
-    }
-
-    updatePointsDisplay();
-
-    // ====== Timer ======
-    const hoursE = document.querySelector(".time-timer_hours");
-    const minutesE = document.querySelector(".time-timer_minutes");
-    const secondsE = document.querySelector(".time-timer_seconds");
-    const toggleBtn = document.querySelector(".time-play-pause-btn");
-    const toggleBtnImg = document.querySelector(".time-play-pause-btn-img");
-
-    const TIMER_KEYS = {
-        elapsed: "timerElapsedSeconds",
-        start: "timerStartTimestamp",
-        running: "timerIsRunning"
+    // Tick based on real time difference to avoid drift and survive tab suspension
+    const tick = () => {
+        const now = Date.now();
+        elapsedSeconds = baseElapsedAtStart + Math.floor((now - startTimestamp) / 1000);
+        updateDisplay();
     };
 
-    let elapsedSeconds = 0;
-    let isRunning = false;
-    let intervalId = null;
-    let startTimestamp = null;
+    tick();
+    intervalId = setInterval(tick, 1000);
+}
 
-    function updateDisplay() {
-        const hours = Math.floor(elapsedSeconds / 3600);
-        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-        const seconds = elapsedSeconds % 60;
-        hoursE.textContent = String(hours).padStart(2, "0");
-        minutesE.textContent = String(minutes).padStart(2, "0");
-        secondsE.textContent = String(seconds).padStart(2, "0");
+function stopTimer() {
+    if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
     }
 
-    function startTimer(options = { preserveStart: false }) {
-        if (intervalId) clearInterval(intervalId);
-
-        if (options.preserveStart) {
-            startTimestamp = parseInt(localStorage.getItem(TIMER_KEYS.start) || "0");
-        } else {
-            startTimestamp = Date.now();
-            localStorage.setItem(TIMER_KEYS.start, String(startTimestamp));
-        }
-
-        isRunning = true;
-        localStorage.setItem(TIMER_KEYS.running, "true");
-        if (toggleBtnImg) toggleBtnImg.src = "res/pause-btn.svg";
-
-        const baseElapsedAtStart = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
-
-        // Tick based on real time difference to avoid drift and survive tab suspension
-        const tick = () => {
-            const now = Date.now();
-            elapsedSeconds = baseElapsedAtStart + Math.floor((now - startTimestamp) / 1000);
-            updateDisplay();
-        };
-
-        tick();
-        intervalId = setInterval(tick, 1000);
+    // Compute final elapsed and persist
+    const baseElapsedBefore = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
+    if (startTimestamp) {
+        const now = Date.now();
+        elapsedSeconds = baseElapsedBefore + Math.floor((now - startTimestamp) / 1000);
+    } else {
+        elapsedSeconds = baseElapsedBefore;
     }
 
-    function stopTimer() {
-        if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
-        }
+    localStorage.setItem(TIMER_KEYS.elapsed, String(elapsedSeconds));
+    localStorage.setItem(TIMER_KEYS.running, "false");
+    localStorage.removeItem(TIMER_KEYS.start);
 
-        // Compute final elapsed and persist
-        const baseElapsedBefore = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
-        if (startTimestamp) {
-            const now = Date.now();
-            elapsedSeconds = baseElapsedBefore + Math.floor((now - startTimestamp) / 1000);
-        } else {
-            elapsedSeconds = baseElapsedBefore;
-        }
+    isRunning = false;
+    startTimestamp = null;
+    updateDisplay();
+    if (toggleBtnImg) toggleBtnImg.src = "res/play-btn.svg";
+}
 
-        localStorage.setItem(TIMER_KEYS.elapsed, String(elapsedSeconds));
-        localStorage.setItem(TIMER_KEYS.running, "false");
-        localStorage.removeItem(TIMER_KEYS.start);
+toggleBtn?.addEventListener("click", () => {
+    if (!isRunning) {
+        startTimer({ preserveStart: false });
+    } else {
+        stopTimer();
+    }
+});
 
+// Initialize timer from persisted state
+(function initTimerFromStorage() {
+    const storedElapsed = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
+    const storedRunning = localStorage.getItem(TIMER_KEYS.running) === "true";
+    const storedStart = parseInt(localStorage.getItem(TIMER_KEYS.start) || "0");
+
+    if (storedRunning && storedStart) {
+        // Recompute current elapsed and resume ticking without resetting start
+        elapsedSeconds = storedElapsed + Math.floor((Date.now() - storedStart) / 1000);
+        updateDisplay();
+        startTimer({ preserveStart: true });
+    } else {
+        elapsedSeconds = storedElapsed;
         isRunning = false;
-        startTimestamp = null;
         updateDisplay();
         if (toggleBtnImg) toggleBtnImg.src = "res/play-btn.svg";
     }
+})();
 
-    toggleBtn?.addEventListener("click", () => {
-        if (!isRunning) {
-            startTimer({ preserveStart: false });
-        } else {
-            stopTimer();
-        }
-    });
-
-    // Initialize timer from persisted state
-    (function initTimerFromStorage() {
-        const storedElapsed = parseInt(localStorage.getItem(TIMER_KEYS.elapsed) || "0");
-        const storedRunning = localStorage.getItem(TIMER_KEYS.running) === "true";
-        const storedStart = parseInt(localStorage.getItem(TIMER_KEYS.start) || "0");
-
-        if (storedRunning && storedStart) {
-            // Recompute current elapsed and resume ticking without resetting start
-            elapsedSeconds = storedElapsed + Math.floor((Date.now() - storedStart) / 1000);
-            updateDisplay();
-            startTimer({ preserveStart: true });
-        } else {
-            elapsedSeconds = storedElapsed;
-            isRunning = false;
-            updateDisplay();
-            if (toggleBtnImg) toggleBtnImg.src = "res/play-btn.svg";
-        }
-    })();
-
-    // ====== Add task with layout & persistence ======
-    function addTask(task, ul, groupId, subgroupId) {
-        const html = `
-        <li class="time-tasks_item">
-            <label class="time-tasks_item-label common-checkbox-label">
-                <input type="checkbox" class="time-tasks_item-checkbox common-checkbox">
-                <span class="time-tasks_item-check common-checkbox-check"></span>
-                <span class="time-tasks_item-text common-checkbox-text">
-                    <div class="time-task-due-date">${task.dueDate || ""}</div>
-                    <div class="time-task-main-row">
-                        <span class="time-task-name">${task.name}</span>
-                        <span class="time-task-points">
-                            ${task.points || 0}
-                            <img src="res/point-icon.png" alt="points" class="time-task-points-icon">
-                        </span>
-                    </div>
-                </span>
-            </label>
-        </li>`;
-        
-        const temp = document.createElement("div");
-        temp.innerHTML = html.trim();
-        const li = temp.firstElementChild;
-        const checkbox = li.querySelector("input");
-
-        // Restore checked state
-        checkbox.checked = isTaskChecked(groupId, subgroupId, task.name);
-
-        checkbox.addEventListener("change", function() {
-            li.classList.add("moving");  // start animation
-
-            setTimeout(() => {
-                if (this.checked) {
-                    totalPoints += task.points || 0;
-                    ul.appendChild(li);  // move to bottom
-                } else {
-                    totalPoints -= task.points || 0;
-                    ul.insertBefore(li, ul.firstChild);  // move to top
-                }
-                updatePointsDisplay();
-                saveTaskCheckedState(groupId, subgroupId, task.name, this.checked);
-                
-                li.classList.remove("moving");  // remove animation class after move
-            }, 200); // same duration as CSS transition
-        });
-
-
-        // Place initially based on checked state
-        if (checkbox.checked) {
-            ul.appendChild(li);
-        } else {
-            ul.insertBefore(li, ul.firstChild);
-        }
-    }
-
-    // ====== Render tasks by subgroup ======
-    const chosenGroupId = new URLSearchParams(window.location.search).get("groupId");
-
-    // ====== Notes persistence ======
-    const notesEl = document.querySelector(".time-notes");
-    const notesForm = notesEl?.closest("form");
-    const NOTES_KEY = chosenGroupId ? `notes:${chosenGroupId}` : "notes:global";
-
-    function loadNotes() {
-        if (!notesEl) return;
-        notesEl.value = localStorage.getItem(NOTES_KEY) || "";
-    }
-
-    function saveNotes() {
-        if (!notesEl) return;
-        localStorage.setItem(NOTES_KEY, notesEl.value || "");
-    }
-
-    loadNotes();
-    notesEl?.addEventListener("input", saveNotes);
-    notesForm?.addEventListener("submit", (e) => {
-        e.preventDefault();
-        saveNotes();
-    });
-    const group = loadGroups().find(g => g.id === chosenGroupId);
-    const container = document.querySelector(".time-tasks-content");
-
-    if (group && container) {
-        container.innerHTML = "";
-        group.subgroups.forEach(sub => {
-            const subEl = document.createElement("div");
-            subEl.classList.add("time-subgroup");
-
-            const titleEl = document.createElement("div");
-            titleEl.classList.add("time-subgroup-title");
-            titleEl.textContent = sub.name || "Untitled Subgroup";
-            subEl.appendChild(titleEl);
-
-            const ul = document.createElement("ul");
-            ul.classList.add("time-tasks-list");
-            subEl.appendChild(ul);
-
-            sub.tasks.forEach(t => addTask(t, ul, group.id, sub.id));
-            container.appendChild(subEl);
-        });
-    } else if (container) {
-        container.innerHTML = "<li>No tasks found for this group.</li>";
-    }
+// ====== Add task with layout & persistence ======
+function addTask(task, ul, groupId, subgroupId) {
+    const html = `
+    <li class="time-tasks_item">
+        <label class="time-tasks_item-label common-checkbox-label">
+            <input type="checkbox" class="time-tasks_item-checkbox common-checkbox">
+            <span class="time-tasks_item-check common-checkbox-check"></span>
+            <span class="time-tasks_item-text common-checkbox-text">
+                <div class="time-task-due-date">${task.dueDate || ""}</div>
+                <div class="time-task-main-row">
+                    <span class="time-task-name">${task.name}</span>
+                    <span class="time-task-points">
+                        ${task.points || 0}
+                        <img src="res/point-icon.png" alt="points" class="time-task-points-icon">
+                    </span>
+                </div>
+            </span>
+        </label>
+    </li>`;
     
+    const temp = document.createElement("div");
+    temp.innerHTML = html.trim();
+    const li = temp.firstElementChild;
+    const checkbox = li.querySelector("input");
+
+    // Restore checked state
+    checkbox.checked = isTaskChecked(groupId, subgroupId, task.name);
+
+    checkbox.addEventListener("change", function() {
+        li.classList.add("moving");  // start animation
+
+        setTimeout(() => {
+            if (this.checked) {
+                totalPoints += task.points || 0;
+                ul.appendChild(li);  // move to bottom
+            } else {
+                totalPoints -= task.points || 0;
+                ul.insertBefore(li, ul.firstChild);  // move to top
+            }
+            updatePointsDisplay();
+            saveTaskCheckedState(groupId, subgroupId, task.name, this.checked);
+            
+            li.classList.remove("moving");  // remove animation class after move
+        }, 200); // same duration as CSS transition
+    });
+
+
+    // Place initially based on checked state
+    if (checkbox.checked) {
+        ul.appendChild(li);
+    } else {
+        ul.insertBefore(li, ul.firstChild);
+    }
+}
+
+// ====== Render tasks by subgroup ======
+const chosenGroupId = new URLSearchParams(window.location.search).get("groupId");
+
+// ====== Notes persistence ======
+const notesEl = document.querySelector(".time-notes");
+const notesForm = notesEl?.closest("form");
+const NOTES_KEY = chosenGroupId ? `notes:${chosenGroupId}` : "notes:global";
+
+function loadNotes() {
+    if (!notesEl) return;
+    notesEl.value = localStorage.getItem(NOTES_KEY) || "";
+}
+
+function saveNotes() {
+    if (!notesEl) return;
+    localStorage.setItem(NOTES_KEY, notesEl.value || "");
+}
+
+loadNotes();
+notesEl?.addEventListener("input", saveNotes);
+notesForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    saveNotes();
+});
+const group = loadGroups().find(g => g.id === chosenGroupId);
+const container = document.querySelector(".time-tasks-content");
+
+if (group && container) {
+    container.innerHTML = "";
+    group.subgroups.forEach(sub => {
+        const subEl = document.createElement("div");
+        subEl.classList.add("time-subgroup");
+
+        const titleEl = document.createElement("div");
+        titleEl.classList.add("time-subgroup-title");
+        titleEl.textContent = sub.name || "Untitled Subgroup";
+        subEl.appendChild(titleEl);
+
+        const ul = document.createElement("ul");
+        ul.classList.add("time-tasks-list");
+        subEl.appendChild(ul);
+
+        sub.tasks.forEach(t => addTask(t, ul, group.id, sub.id));
+        container.appendChild(subEl);
+    });
+} else if (container) {
+    container.innerHTML = "<li>No tasks found for this group.</li>";
+}

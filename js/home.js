@@ -9,6 +9,7 @@ function generateId(prefix) {
 }
 
 //  Elements 
+let header_right_coins_count = document.querySelector(".header_right_coins-count");
 let home_tasks_start_btn = document.querySelector("#home_tasks_start-btn");
 let home_tasks_add_btn = document.querySelector(".home_tasks_add-btn");
 let home_tasks_row = document.querySelector(".home_tasks-row");
@@ -16,6 +17,14 @@ let home_tasks_edit_group_form = document.querySelector(".home_tasks_edit_group-
 let home_tasks_edit_container = document.querySelector(".home_tasks_edit-container");
 let home_tasks_edit_cross = document.querySelector(".home_tasks_edit-cross");
 let home_tasks_max_item = 4;
+
+// Render points
+
+function renderPoints() {
+    let totalPoints = Number(localStorage.getItem("totalPoints")) || 0;
+    document.querySelector(".header_right_coins").textContent = totalPoints;
+}
+renderPoints();
 
 //  Render Groups 
 function renderGroups() {
