@@ -179,6 +179,7 @@ function addTask(task, ul, groupId, subgroupId) {
                 ul.insertBefore(li, ul.firstChild);  // move to top
             }
             updatePointsDisplay();
+            renderPoints();
             saveTaskCheckedState(groupId, subgroupId, task.name, this.checked);
             
             li.classList.remove("moving");  // remove animation class after move
